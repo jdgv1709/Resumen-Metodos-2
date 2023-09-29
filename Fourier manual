@@ -1,0 +1,39 @@
+import math
+import cmath
+
+# Define a sample signal (list of complex numbers)
+def create_sample_signal(N):
+    signal = []
+    for n in range(N):
+        t = n / N
+        signal.append(2.0 * cmath.exp(2j * math.pi * t) + 1.5 * cmath.exp(-4j * math.pi * t))
+    return signal
+
+# Compute Discrete Fourier Transform (DFT) manually
+def manual_dft(signal):
+    N = len(signal)
+    dft_result = [0] * N
+    
+    for k in range(N):
+        for n in range(N):
+            angle = 2 * math.pi * k * n / N
+            dft_result[k] += signal[n] * cmath.exp(-1j * angle)
+    
+    return dft_result
+
+# Create a sample signal
+N = 64  # Number of samples
+signal = create_sample_signal(N)
+
+# Compute DFT manually
+dft_result = manual_dft(signal)
+
+# Plot the magnitude of the DFT
+import matplotlib.pyplot as plt
+
+magnitude = [abs(x) for x in dft_result]
+plt.plot(range(N), magnitude)
+plt.xlabel('Frequency')
+plt.ylabel('Magnitude')
+plt.title('Discrete Fourier Transform (DFT)')
+plt.show()
